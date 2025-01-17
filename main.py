@@ -3,7 +3,7 @@ import time # Importing the time module to track the duration of the quiz
 
 
 def main():
-    # initialise variables to track the number of questions asked, correct answers and current streak
+    # initialise variables to track the num of questions asked, correct answers and current streak
     questions_asked = 0
     current_streak = 0
     correct_answers = 0
@@ -13,7 +13,7 @@ def main():
     questions = ask_num_of_questions()
 
     print("")
-    
+
     # records the start time of the quiz
     start_time = time.time()
 
@@ -41,15 +41,16 @@ def main():
 
         # prints out the current streak
         print(f"Your current streak is {current_streak}\n")
-        
+
         # increments the questions_asked counter
         questions_asked += 1
 
     # records the end time of the quiz
     end_time = time.time()
 
-    # prints out the users score and the time taken answering the questions, rounded to 2 decimal places
-    print(f"You got {correct_answers} questions right out of {questions_asked} in {round((end_time - start_time), 2)} seconds!!!")
+    # prints out the users score and the time taken to answer the questions, rounded to 2 dp
+    print(f"You got {correct_answers} questions right out of {questions_asked} "
+          f"in {round((end_time - start_time), 2)} seconds!!!")
 
 
 def ask_num_of_questions():
@@ -63,16 +64,16 @@ def ask_num_of_questions():
     while True:
         # confirms the user input an int, otherwise prints an error message and asks them again
         try:
-            questions = int(input("Please enter the number of questions you would like to answer: "))
+            questions = int(input("How many questions you would like to answer? "))
         except:
             print("Sorry, that is not a valid number of questions")
             continue
 
-        # confirms the user input a number greater than 0, otherwise prints an error message and asks them again
+        # if input less than 1, prints an error message and asks them again
         if questions <= 0:
             print("You must input a value greater than 0")
             continue
-        
+
         return questions
 
 
@@ -90,17 +91,21 @@ def ask_for_opperations():
     ValueError: If no valid operation is selected by the user
     """
 
-    # Asks the user to input all the opperations they want to do, removes all the spaces and ensures it is all lowercase
-    user_choice = str("".join(input("Please write the opperations you would like to practice today [+,-,x,/] e.g. type +- for addition and subtraction, type 'all' for all the opperations: ").split())).lower()
-    
+    # Asks the user to input all the opperations they want to do, removes all the spaces
+    # and ensures it is all lowercase
+    user_choice = str("".join(input("Please write the opperations you would like to practice "
+                                    "today [+,-,x,/] e.g. type +- for addition and subtraction, "
+                                    "type 'all' for all the opperations: ").split())).lower()
+
     # ensures the user provided an input, otherwise raises ValueError
     if user_choice == "":
         raise ValueError("You must select atleast one opperand")
-    
+
     if user_choice == "all":
         return ["+", "-", "x", "/"]
-    
-    # loops through all characters in user_choice, appends valid opperands to allowed_opperations, skips invalid opperands
+
+    # loops through all characters in user_choice, appends valid opperands to allowed_opperations,
+    # skips invalid opperands
     allowed_opperations = []
     for opperand in user_choice:
         if opperand in ("+", "-", "/", "x"):
@@ -109,10 +114,10 @@ def ask_for_opperations():
             print(f"Sorry, {opperand} is not currently supported, skipping opperand")
 
     # if the user didn't input any valid opperands, raises a ValueError
-    if allowed_opperations == []:
+    if not allowed_opperations:
         raise ValueError("No valid opperands selected")
 
-    # returns list of opperations the user wants to practice, ensuring the list only contains unique values
+    # returns list of opperations chosen by the user, ensuring the list contains unique values
     return list(set(allowed_opperations))
 
 
@@ -135,7 +140,8 @@ def opperation(opperand):
 
     Args
     ----
-    opperand (str): The opperand which is used in the question asked to the user, can take values ["+", "-", "x", "/"]
+    opperand (str): The opperand which is used in the question asked to the user, can take values 
+    ["+", "-", "x", "/"]
 
     Returns
     -------
@@ -168,7 +174,8 @@ def opperation(opperand):
 
 def remove_rand():
     """
-    Randomly selects a position in the equation to remove, this is the position of the equation where the user has to deduce what the value is
+    Randomly selects a position in the equation to remove, this is the position of the equation
+    where the user has to deduce what the value is
 
     Returns
     -------
@@ -176,7 +183,7 @@ def remove_rand():
     """
     # defines a list of the available options to be removed
     options = ["a", "b", "c"]
-    
+
     # returns a random letter from the options list
     return options[randint(0, 2)]
 
@@ -190,7 +197,8 @@ def ask_the_user(a, b, c, opperand, removed):
     ----
     a, b, c (int): The numbers used in the equation that the user will be asked
     opperand (str): The opperand used in the equation, one of ["+", "-", "x", "/"]
-    removed (str): The postion of the number that won't be shown to the user and they have to work out
+    removed (str): The postion of the number that won't be shown to the user and they
+    have to work out
 
     Returns
     -------
@@ -205,20 +213,22 @@ def ask_the_user(a, b, c, opperand, removed):
         case "c":
             print(f"{a} {opperand} {b} = ?")
 
-    # asks the user to input their answer and returns this, if their input is not an int it asks them again
+    # asks the user to input their answer and if it is valid, it returns this
+    # otherwise it asks them again
     while True:
         try:
             # returns the users answer
             return int(input("What is the missing number? "))
         except ValueError:
             print("Your answer must be an number")
-    
+
 
 
 
 def check_answer(answer, their_answer):
     """
-    Checks the users answer, prints a message for the user and returns True or False based on if their answer is correct
+    Checks the users answer, prints a message for the user and returns True or False based on 
+    if their answer is correct
 
     Args
     ----
