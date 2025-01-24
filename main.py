@@ -8,8 +8,8 @@ def main():
     current_streak = 0
     correct_answers = 0
 
-    # ask the users which opperations they want to do and how many questions they want to answer
-    opperations = ask_for_opperations()
+    # ask the users which operations they want to do and how many questions they want to answer
+    operations = ask_for_operations()
     questions = ask_num_of_questions()
 
     print("")
@@ -20,10 +20,10 @@ def main():
     # Asks the user the questions
     while questions_asked < questions:
         # randomly generates an opperator to use in the question
-        opperator = rand_opperator(opperations)
+        opperator = rand_opperator(operations)
 
         # generates the 3 numbers used in the equation
-        a, b, c = opperation(opperator)
+        a, b, c = operation(opperator)
 
         # randomly selects which position in the equation is hidden from the user
         removed_pos = remove_rand()
@@ -78,47 +78,47 @@ def ask_num_of_questions():
 
 
 
-def ask_for_opperations():
+def ask_for_operations():
     """
-    Asks the user which opperations they want to practice from the options [+, -, x, /]
+    Asks the user which operations they want to practice from the options [+, -, x, /]
 
     Returns
     -------
-    list: A list of opperations the user wants to practice e.g. ["+", "x"]
+    list: A list of operations the user wants to practice e.g. ["+", "x"]
 
     Raises
     ------
     ValueError: If no valid operation is selected by the user
     """
 
-    # Asks the user to input all the opperations they want to do, removes all the spaces
+    # Asks the user to input all the operations they want to do, removes all the spaces
     # and ensures it is all lowercase
-    user_choice = str("".join(input("Please write the opperations you would like to practice "
+    user_choice = str("".join(input("Please write the operations you would like to practice "
                                     "today [+,-,x,/] e.g. type +- for addition and subtraction, "
-                                    "type 'all' for all the opperations: ").split())).lower()
+                                    "type 'all' for all the operations: ").split())).lower()
 
     # ensures the user provided an input, otherwise raises ValueError
     if user_choice == "":
-        raise ValueError("You must select atleast one opperand")
+        raise ValueError("You must select atleast one operand")
 
     if user_choice == "all":
         return ["+", "-", "x", "/"]
 
-    # loops through all characters in user_choice, appends valid opperands to allowed_opperations,
-    # skips invalid opperands
-    allowed_opperations = []
-    for opperand in user_choice:
-        if opperand in ("+", "-", "/", "x"):
-            allowed_opperations.append(opperand)
+    # loops through all characters in user_choice, appends valid operands to allowed_operations,
+    # skips invalid operands
+    allowed_operations = []
+    for operand in user_choice:
+        if operand in ("+", "-", "/", "x"):
+            allowed_operations.append(operand)
         else:
-            print(f"Sorry, {opperand} is not currently supported, skipping opperand")
+            print(f"Sorry, {operand} is not currently supported, skipping operand")
 
-    # if the user didn't input any valid opperands, raises a ValueError
-    if not allowed_opperations:
-        raise ValueError("No valid opperands selected")
+    # if the user didn't input any valid operands, raises a ValueError
+    if not allowed_operations:
+        raise ValueError("No valid operands selected")
 
-    # returns list of opperations chosen by the user, ensuring the list contains unique values
-    return list(set(allowed_opperations))
+    # returns list of operations chosen by the user, ensuring the list contains unique values
+    return list(set(allowed_operations))
 
 
 def rand_opperator(opperators):
@@ -134,13 +134,13 @@ def rand_opperator(opperators):
 
 
 
-def opperation(opperand):
+def operation(operand):
     """
     Returns 3 numbers to be used in the question in the format a [+,-,x,/] b = c
 
     Args
     ----
-    opperand (str): The opperand which is used in the question asked to the user, can take values 
+    operand (str): The operand which is used in the question asked to the user, can take values 
     ["+", "-", "x", "/"]
 
     Returns
@@ -152,13 +152,13 @@ def opperation(opperand):
     a = b = c = 0
 
     # if statement to determine which two values of the three to randomly generate
-    if opperand == "/":
+    if operand == "/":
         b, c = randint(1, 10), randint(1, 10)
     else:
         a, b = randint(1, 10), randint(1, 10)
 
     # determines what the final value should be
-    match opperand:
+    match operand:
         case "/":
             a = c * b
         case "+":
@@ -189,14 +189,14 @@ def remove_rand():
 
 
 
-def ask_the_user(a, b, c, opperand, removed):
+def ask_the_user(a, b, c, operand, removed):
     """
     Asks the user the question and returns their answer
 
     Args
     ----
     a, b, c (int): The numbers used in the equation that the user will be asked
-    opperand (str): The opperand used in the equation, one of ["+", "-", "x", "/"]
+    operand (str): The operand used in the equation, one of ["+", "-", "x", "/"]
     removed (str): The postion of the number that won't be shown to the user and they
     have to work out
 
@@ -207,11 +207,11 @@ def ask_the_user(a, b, c, opperand, removed):
     # prints the question for the user, removing a randomly generated position
     match removed:
         case "a":
-            print(f"? {opperand} {b} = {c}")
+            print(f"? {operand} {b} = {c}")
         case "b":
-            print(f"{a} {opperand} ? = {c}")
+            print(f"{a} {operand} ? = {c}")
         case "c":
-            print(f"{a} {opperand} {b} = ?")
+            print(f"{a} {operand} {b} = ?")
 
     # asks the user to input their answer and if it is valid, it returns this
     # otherwise it asks them again
