@@ -19,17 +19,17 @@ def main():
 
     # Asks the user the questions
     while questions_asked < questions:
-        # randomly generates an opperator to use in the question
-        opperator = rand_opperator(operations)
+        # randomly generates an operator to use in the question
+        operator = rand_operator(operations)
 
         # generates the 3 numbers used in the equation
-        a, b, c = operation(opperator)
+        a, b, c = operation(operator)
 
         # randomly selects which position in the equation is hidden from the user
         removed_pos = remove_rand()
 
         # Asks the user the question and recieves their answer
-        answer = ask_the_user(a, b, c, opperator, removed_pos)
+        answer = ask_the_user(a, b, c, operator, removed_pos)
 
         # checks their answer, updates the correct_answers and current_streak variables
         positions = {"a": a, "b": b, "c": c}
@@ -121,16 +121,16 @@ def ask_for_operations():
     return list(set(allowed_operations))
 
 
-def rand_opperator(opperators):
+def rand_operator(operators):
     """
     Picks a random opporator from addition, multiplication, subtraction and division and returns it
 
     Returns
     -------
-    String: Returns the random opperator as a string
+    String: Returns the random operator as a string
     """
-    # returns a random opperator from the list using random module
-    return opperators[randint(0, len(opperators) - 1)]
+    # returns a random operator from the list using random module
+    return operators[randint(0, len(operators) - 1)]
 
 
 
